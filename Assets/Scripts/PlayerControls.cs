@@ -4,15 +4,69 @@ using UnityEngine;
 
 public class PlayerControls : MonoBehaviour
 {
+    //Jumping power for the player object
+    [Header("Default Jumping Power")]
+    public float jumpPower = 6f;
+    //True or false if is on the ground
+    [Header("Boolean isGrounded")]
+    public bool isGrounded;
+    //position of the object
+    float posX = 0.0f;
+    //rigidbody2D of the object
+    Rigidbody2D rb;
+
     // Start is called before the first frame update
     void Start()
     {
+        //Variable rb equals to Rigidbody2D
+        //component on the object
+        //this script is attached to
+        rb = GetComponent<Rigidbody2D>();
 
+        //posX = starting position
+        posX = transform.position.x;
     }
 
     // Update is called once per frame
     void Update()
     {
+        //Only jump if we press space and if isGrounded is true
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        {
+            rb.AddForce(Vector3.up * jumpPower * rb.mass * rb.gravityScale * 20f);
+        }
+    }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        //If the object we collide with has the
+        //tag Ground
+        if (collision.gameObject.tag == "Ground")
+        {
+            //isGrounded is set to true
+            isGrounded = true;
+        }
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        //If the object we collide with has the
+        //tag Ground
+        if (collision.gameObject.tag == "Ground")
+        {
+            //isGrounded is set to true
+            isGrounded = true;
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        //If the object we collide with has the
+        //tag Ground
+        if (collision.gameObject.tag == "Ground")
+        {
+            //isGrounded is set to true
+            isGrounded = false;
+        }
     }
 }
