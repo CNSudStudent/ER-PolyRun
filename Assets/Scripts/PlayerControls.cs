@@ -25,6 +25,14 @@ public class PlayerControls : MonoBehaviour
 
         //posX = starting position
         posX = transform.position.x;
+
+        Time.timeScale = 1;
+    }
+
+    //The function to call when we GameOver
+    void GameOver()
+    {
+        Time.timeScale = 0;
     }
 
     // Update is called once per frame
@@ -34,6 +42,14 @@ public class PlayerControls : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
             rb.AddForce(Vector3.up * jumpPower * rb.mass * rb.gravityScale * 20f);
+        }
+
+        //If the player position is
+        //less than where it started
+        if (transform.position.x < posX)
+        {
+            //Execute Gameover function
+            GameOver();
         }
     }
 
