@@ -32,7 +32,9 @@ public class PlayerControls : MonoBehaviour
     //The function to call when we GameOver
     void GameOver()
     {
-        Time.timeScale = 0;
+        GameObject.Find("GameController").GetComponent<GameController>().GameOver();
+
+        //GameOver()
     }
 
     // Update is called once per frame
@@ -73,6 +75,11 @@ public class PlayerControls : MonoBehaviour
             //isGrounded is set to true
             isGrounded = true;
         }
+
+        if (collision.gameObject.tag == "Enemy")
+        {
+            GameOver();
+        }
     }
 
     private void OnCollisionExit2D(Collision2D collision)
@@ -83,6 +90,17 @@ public class PlayerControls : MonoBehaviour
         {
             //isGrounded is set to true
             isGrounded = false;
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == "Coin")
+        {
+            //Find the game controller and ad to our score
+            GameObject.Find("GameController").GetComponent<GameController>().IncrementScore();
+
+            Destroy(collision.gameObject);
         }
     }
 }
